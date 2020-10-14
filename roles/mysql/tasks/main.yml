@@ -1,0 +1,41 @@
+- name: setup extension
+  apt:
+    name:
+      - python-mysqldb
+      - mysql-server
+    state: present
+
+- name: Change root password
+  mysql_user:
+    name: root
+    password: 111
+  ignore_errors: yes
+
+- name: Create mysql database
+  mysql_db: 
+    login_user: "{{ wp_mysql_user }}"
+    login_password: "{{ wp_mysql_password }}"
+    name: "{{ wp_mysql_db }}"
+    state: present
+
+- name: creating database user
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ wp_mysql_db }}.*:ALL"
+    host: "%"
+    state: "present"
+    login_user: "{{ wp_mysql_user }}"
+    login_password: "{{ wp_mysql_password }}"
+
+- name: ensure mysql is configured to bind to the specified address and port
+  ini_file:
+    dest: /etc/mysql/my.cnf
+    section: mysqld
+    option: bind-address
+    value: 0.0.0.0
+
+- name: Restart service MySQL
+  service:
+    name: mysql
+    state: restarted

@@ -1,0 +1,8 @@
+---
+# tasks file for user
+  - name: Add user to remote hosts
+    user: name=serviceuser shell=/bin/bash password=$6$Som3S@lt$a/s1zaNqWcA2jlOtr2FcY1pJXje2MkbyRSLYSRkzvaDtipPzJKPw1qfGzzf9yVZW3qSJM39pW389YHsH7orVZ/
+  - name: insert line in file
+    lineinfile: 
+      dest=/etc/sudoers 
+      line="serviceuser     ALL=(ALL:ALL) /bin/systemctl"

@@ -1,0 +1,7 @@
+---
+# defaults file for mysql
+wp_mysql_db: wordpress
+wp_mysql_user: root
+wp_mysql_password: 111
+db_user: test
+db_password: 222

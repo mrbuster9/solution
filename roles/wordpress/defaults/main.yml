@@ -1,0 +1,4 @@
+---
+# defaults file for wordpress
+download_url: "http://wordpress.org/latest.tar.gz"
+wpdirectory: "/var/www/html/"

@@ -1,0 +1,57 @@
+---
+# tasks file for wordpress
+- name: Download WordPress
+  get_url:
+    url: "{{ download_url }}"
+    dest: "/tmp/latest.tar.gz"
+
+- name: Creating directory for WordPress
+  file:
+    path: "{{ wpdirectory }}"
+    state: "directory"
+    owner: "www-data"
+    group: "www-data"
+
+- name: Unpack WordPress installation
+  unarchive:
+    src: "/tmp/latest.tar.gz"
+    dest: "{{ wpdirectory }}"
+    remote_src: yes
+
+- name: Change dir owner
+  file:
+    path: /var/www/html/wordpress
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+
+- name: Install PHP extensions for Wordpress
+  apt: 
+    name:
+      - php5
+      - php5-mysql
+    state: present
+
+- name: Replace root dir
+  lineinfile:
+    dest: /etc/apache2/sites-available/000-default.conf
+    regexp: '^(.*)DocumentRoot(.*)$'
+    line: '	DocumentRoot /var/www/html/wordpress'
+    backrefs: yes
+
+- name: Copy auth-ldap config
+  copy:
+      src: auth-ldap.conf
+      dest: /etc/apache2/sites-available/auth-ldap.conf
+
+- name: Enable ldap module
+  shell: a2enmod ldap authnz_ldap
+
+- name: Enable site
+  shell: a2ensite auth-ldap
+
+- name: Restart service apache2
+  service:
+    name: apache2
+    state: restarted
