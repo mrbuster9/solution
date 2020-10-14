@@ -23,4 +23,4 @@ mysql - install: mysql-server, extension. Create DB wordpress, create user test.
 
 user - create user serviceuser with password 111 and access to execute only systemctl ower sudo
 
-After execute clone repo and execute vagrant up, open in you browser http://192.168.2.31
+After clone this repo execute vagrant up, open in you browser http://192.168.2.31
