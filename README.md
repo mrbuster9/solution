@@ -16,7 +16,7 @@ Password: 222
 LDAP authentication configured for using Group ou=mathematicians,dc=example,dc=com
 Test login passed on gauss:password
 
-##Ansible roles in recreate.yml:
+## Ansible roles in recreate.yml:
 wordpress - install: CMS wordpress, extensions. Configuring apache2
 
 mysql - install: mysql-server, extension. Create DB wordpress, create user test.
